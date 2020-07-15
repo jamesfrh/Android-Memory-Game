@@ -39,6 +39,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //gitcommit test
         selectedImgUrlList = new ArrayList<String>();
 
+        Button fetchBtn = findViewById(R.id.fetchButton);
+        fetchBtn.setOnClickListener(this);
+        TextView myDownloadText = (TextView) findViewById(R.id.downloadText);
+        myDownloadText.setText("");
+
     }
 
     @Override
@@ -89,6 +94,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 @Override
                                 public void run() {
                                     gridLayout.addView(image, idx);
+                                    ProgressBar myProgressBar = (ProgressBar) findViewById(R.id.progressBar);
+                                    myProgressBar.incrementProgressBy(5);
+                                    Integer progress = myProgressBar.getProgress();
+                                    String downloadText = "Downloading ... (" + progress / 5 + " out of 20) images";
+                                    if (progress == 100) {
+                                        downloadText = "Download Completed!";
+                                    }
+                                    TextView myDownloadText = (TextView) findViewById(R.id.downloadText);
+                                    myDownloadText.setText(downloadText);
                                 }
                             });
                         } catch (MalformedURLException e) {
