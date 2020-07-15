@@ -63,6 +63,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     for (final String item : listTest) {
                         final GridLayout.LayoutParams myLayoutParams = new GridLayout.LayoutParams();
                         final ImageView image = new ImageView(that);
+                        image.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                        myLayoutParams.width = gridLayout.getWidth() / 4;
+                        myLayoutParams.height = gridLayout.getWidth() / 4;
+                        image.setPadding(0, 0, 0, 0);
 
                         try {
                             URL imageurl = new URL(item);
