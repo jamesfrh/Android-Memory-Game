@@ -95,9 +95,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 public void run() {
                                     gridLayout.addView(image, idx);
                                     ProgressBar myProgressBar = (ProgressBar) findViewById(R.id.progressBar);
+                                    myProgressBar.setVisibility(View.VISIBLE);
                                     myProgressBar.incrementProgressBy(5);
                                     Integer progress = myProgressBar.getProgress();
-                                    String downloadText = "Downloading ... (" + progress / 5 + " out of 20) images";
+                                    String downloadText = "Downloading " + progress / 5 + " of 20 images";
                                     if (progress == 100) {
                                         downloadText = "Download Completed!";
                                     }
