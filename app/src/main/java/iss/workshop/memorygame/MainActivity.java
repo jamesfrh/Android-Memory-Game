@@ -2,16 +2,24 @@ package iss.workshop.memorygame;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.Image;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.Button;
+import android.widget.GridLayout;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,22 +34,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //gitcommit test
-
     }
 
     @Override
-    public void onClick(View v){
-        new Thread(new Runnable(){
+    public void onClick(View v) {
+        final Context that = this;
+        final GridLayout gridLayout = (GridLayout) findViewById(R.id.table);
+
+        new Thread(new Runnable() {
             @Override
-            public void run(){
+            public void run() {
                 String url = "https://stocksnap.io/search/nature";
                 List<String> listTest = getImageUrls(url);
-                for (String item:listTest) {
-                    System.out.println(item);
+                Integer i = 0;
+
+                for (final String item : listTest) {
+                    final GridLayout.LayoutParams myLayoutParams = new GridLayout.LayoutParams();
+                    final ImageView image = new ImageView(that);
+
+                    try {
+                        URL imageurl = new URL(item);
+                        Bitmap bmp = BitmapFactory.decodeStream(imageurl.openConnection().getInputStream());
+                        image.setImageBitmap(bmp);
+                        image.setLayoutParams(myLayoutParams);
+                        final Integer idx = i;
+                        i++;
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                gridLayout.addView(image, idx);
+                            }
+                        });
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }).start();
     }
+
     protected void downloadImages(String target){
 
     }
@@ -62,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 BufferedReader in = new BufferedReader(new InputStreamReader(httpConn.getInputStream()));
                 String inputLine;
                 while ((inputLine = in.readLine()) != null) {
+                    System.out.println(inputLine);
                     if (inputLine.contains("img src") && inputLine.contains(".jpg")) {
 
                         String s = "<img src=\"";
@@ -69,6 +103,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         String imgUrl = inputLine.substring(urlPosition, inputLine.indexOf("\"", urlPosition+1));
 
                         imageUrlList.add(imgUrl);
+                        if (imageUrlList.size() == 20) {
+                            break;
+                        }
                         //String imgSrcString = inputLine.substring(inputLine.indexOf("img src=") + 9, inputLine.indexOf(".jpg") + 4);
                         //ImageList.add(imgSrcString);
                     }

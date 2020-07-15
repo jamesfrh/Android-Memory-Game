@@ -40,19 +40,25 @@
 
     <GridLayout
         android:id="@+id/table"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
+        android:alignmentMode="alignBounds"
+        android:clipToPadding="false"
         android:columnCount="4"
         android:columnOrderPreserved="false"
+        android:padding="0dp"
         android:paddingHorizontal="0dp"
         android:paddingVertical="0dp"
+        android:paddingStart="0dp"
+        android:paddingLeft="0dp"
+        android:paddingTop="0dp"
+        android:paddingEnd="0dp"
+        android:paddingRight="0dp"
+        android:paddingBottom="0dp"
         android:rowCount="5"
         android:stretchMode="columnWidth"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fetchButton">
-    </GridLayout>
+        app:layout_constraintTop_toBottomOf="@id/fetchButton"></GridLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
