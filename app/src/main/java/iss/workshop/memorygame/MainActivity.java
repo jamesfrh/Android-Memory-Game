@@ -104,10 +104,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                         image.setAlpha(0.3f);
                                     }
                                     if(selectedImgUrlList.size() == 6){
-                                        Intent intent = new Intent(MainActivity.this, GameActivity.class);
-                                        intent.putStringArrayListExtra("urlList", selectedImgUrlList);
-                                        startActivity(intent);
-
+                                        sendimgs();
                                     }
                                 }
                             });
@@ -138,6 +135,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    private void sendimgs() {
+
+        byte[] ByteArray = null;
+        //sending list
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                Intent i = new Intent(MainActivity.this, GameActivity.class);
+                for (int y = 0; y < selectedImgUrlList.size(); y++) {
+                    //getbitmapfrom url
+                    try {
+                        URL url = new URL(selectedImgUrlList.get(y));
+                        Bitmap bm = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                        bm.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                        byte[] byteArray = stream.toByteArray();
+                        // each image sent over as bmp[i]
+                        i.putExtra("bmp" + y, byteArray);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                startActivity(i);
+            }
+        }).start();
+    }
 
     protected void downloadImages(String target) {
 

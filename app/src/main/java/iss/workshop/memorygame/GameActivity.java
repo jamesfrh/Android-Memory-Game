@@ -3,6 +3,9 @@ package iss.workshop.memorygame;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -11,6 +14,7 @@ import java.util.ArrayList;
 
 public class GameActivity extends AppCompatActivity {
 
+    private ArrayList<Drawable> gameimages;
     private int coverImage = R.drawable.cover;
     private Drawable[] chosenImages = new Drawable[6]; // to be used when bitmaps are passed from MainActivity
     private int[] imageViews = {R.id.imageView1, R.id.imageView2, R.id.imageView3, R.id.imageView4,
@@ -28,7 +32,7 @@ public class GameActivity extends AppCompatActivity {
             imageView.setImageResource(coverImage);
             // imageView.setImageResource(duplicatedImageList.get(i)); //to test the randomised list
         }
-
+/*
         Intent intent = getIntent();
         ArrayList<String> selectedUrls = intent.getStringArrayListExtra("urlList");
         System.out.println(selectedUrls.get(0));
@@ -37,6 +41,20 @@ public class GameActivity extends AppCompatActivity {
         System.out.println(selectedUrls.get(3));
         System.out.println(selectedUrls.get(4));
         System.out.println(selectedUrls.get(5));
+        */
+
 
     }
+
+    private void loadimg(){
+        gameimages= new ArrayList<Drawable>();
+        for(int i =0;i<6;i++){
+            Intent intent= getIntent();
+            byte[] byteArray = intent.getByteArrayExtra("bmp"+i);
+            Bitmap bm = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+            Drawable drawable= new BitmapDrawable(getResources(),bm);
+            gameimages.add(drawable);
+        }
+    }
+
 }
