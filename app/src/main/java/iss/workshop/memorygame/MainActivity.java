@@ -6,12 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -31,8 +28,8 @@ import static iss.workshop.memorygame.Utilities.hideKeyBoardOutsideEditText;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    ArrayList<String> selectedImgUrlList;
-    EditText urlText;
+    private ArrayList<String> selectedImgUrlList;
+    private boolean downloading;
 
 
 
@@ -40,8 +37,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //gitcommit test
-        selectedImgUrlList = new ArrayList<String>();
+        selectedImgUrlList = new ArrayList<>();
 
         Button fetchBtn = findViewById(R.id.fetchButton);
         fetchBtn.setOnClickListener(this);
@@ -52,12 +48,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
+        hideKeyBoardOutsideEditText(MainActivity.this);
         int id = v.getId();
         if (id == R.id.fetchButton) {
             final Context that = this;
             final GridLayout gridLayout = (GridLayout) findViewById(R.id.table);
-            //hides keyboard after clicking fetch button
-            hideKeyBoardOutsideEditText(MainActivity.this);
+
+            downloading = true;
+            gridLayout.removeAllViews();
 
             new Thread(new Runnable() {
                 @Override
@@ -73,61 +71,66 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                     */
                     List<String> listTest = getImageUrls(url);
+
+                    final ProgressBar myProgressBar = (ProgressBar) findViewById(R.id.progressBar);
+                    myProgressBar.setProgress(0);
+                    selectedImgUrlList.clear();
+
                     Integer i = 0;
-
                     for (final String item : listTest) {
-                        final GridLayout.LayoutParams myLayoutParams = new GridLayout.LayoutParams();
-                        final ImageView image = new ImageView(that);
-                        image.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                        myLayoutParams.width = gridLayout.getWidth() / 4;
-                        myLayoutParams.height = gridLayout.getWidth() / 4;
-                        image.setPadding(0, 0, 0, 0);
+                        if(downloading) {
+                            final GridLayout.LayoutParams myLayoutParams = new GridLayout.LayoutParams();
+                            final ImageView image = new ImageView(that);
+                            image.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                            myLayoutParams.width = gridLayout.getWidth() / 4;
+                            myLayoutParams.height = gridLayout.getWidth() / 4;
+                            image.setPadding(0, 0, 0, 0);
 
-                        try {
-                            URL imageurl = new URL(item);
-                            Bitmap bmp = BitmapFactory.decodeStream(imageurl.openConnection().getInputStream());
-                            image.setImageBitmap(bmp);
-                            image.setLayoutParams(myLayoutParams);
+                            try {
+                                URL imageurl = new URL(item);
+                                Bitmap bmp = BitmapFactory.decodeStream(imageurl.openConnection().getInputStream());
+                                image.setImageBitmap(bmp);
+                                image.setLayoutParams(myLayoutParams);
 
-                            final Integer idx = i;
-                            i++;
-                            image.setId(i);
-                            image.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    //hides keyboard after clicking images
-                                    hideKeyBoardOutsideEditText(MainActivity.this);
-                                    int id = v.getId();
-                                    if(selectedImgUrlList.size() < 6 && !selectedImgUrlList.contains(item)){
-                                        selectedImgUrlList.add(item);
-                                        //reduce opacity of image to indicate it has been clicked
-                                        image.setAlpha(0.3f);
+                                final Integer idx = i;
+                                i++;
+                                image.setId(i);
+                                image.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        //hides keyboard after clicking images
+                                        hideKeyBoardOutsideEditText(MainActivity.this);
+                                        if (selectedImgUrlList.size() < 6 && !selectedImgUrlList.contains(item)) {
+                                            selectedImgUrlList.add(item);
+                                            //reduce opacity of image to indicate it has been clicked
+                                            image.setAlpha(0.3f);
+                                        }
+                                        if (selectedImgUrlList.size() == 6) {
+                                            sendimgs();
+                                        }
                                     }
-                                    if(selectedImgUrlList.size() == 6){
-                                        sendimgs();
+                                });
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        gridLayout.addView(image, idx);
+                                        //ProgressBar myProgressBar = (ProgressBar) findViewById(R.id.progressBar);
+                                        //myProgressBar.setVisibility(View.VISIBLE);
+                                        myProgressBar.incrementProgressBy(5);
+                                        Integer progress = myProgressBar.getProgress();
+                                        String downloadText = "Downloading " + progress / 5 + " of 20 images";
+                                        if (progress == 100) {
+                                            downloadText = "Download Completed!";
+                                        }
+                                        TextView myDownloadText = (TextView) findViewById(R.id.downloadText);
+                                        myDownloadText.setText(downloadText);
                                     }
-                                }
-                            });
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    gridLayout.addView(image, idx);
-                                    ProgressBar myProgressBar = (ProgressBar) findViewById(R.id.progressBar);
-                                    myProgressBar.setVisibility(View.VISIBLE);
-                                    myProgressBar.incrementProgressBy(5);
-                                    Integer progress = myProgressBar.getProgress();
-                                    String downloadText = "Downloading " + progress / 5 + " of 20 images";
-                                    if (progress == 100) {
-                                        downloadText = "Download Completed!";
-                                    }
-                                    TextView myDownloadText = (TextView) findViewById(R.id.downloadText);
-                                    myDownloadText.setText(downloadText);
-                                }
-                            });
-                        } catch (MalformedURLException e) {
-                            e.printStackTrace();
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                                });
+                            } catch (MalformedURLException e) {
+                                e.printStackTrace();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 }
@@ -204,6 +207,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             e.printStackTrace();
         }
         return imageUrlList;
+    }
+    public void onClickCancel(View view){
+        downloading = false;
     }
 
 
