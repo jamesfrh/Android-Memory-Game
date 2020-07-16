@@ -8,29 +8,40 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.SystemClock;
+import android.widget.Chronometer;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class GameActivity extends AppCompatActivity {
 
     private ArrayList<Drawable> gameimages;
+    private ArrayList<Drawable> duplicatedImages;
     private int coverImage = R.drawable.cover;
-    private Drawable[] chosenImages = new Drawable[6]; // to be used when bitmaps are passed from MainActivity
     private int[] imageViews = {R.id.imageView1, R.id.imageView2, R.id.imageView3, R.id.imageView4,
             R.id.imageView5, R.id.imageView6, R.id.imageView7, R.id.imageView8,
             R.id.imageView9, R.id.imageView10, R.id.imageView11, R.id.imageView12};
+    private Chronometer timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        // Load images, duplicate and shuffle
+        loadimg();
+        duplicatedImages = new ArrayList<Drawable>();
+        duplicatedImages.addAll(gameimages);
+        duplicatedImages.addAll(gameimages);
+        Collections.shuffle(duplicatedImages);
+
         // Set cover image to all image views
         for (int i=0; i<imageViews.length; i++) {
             ImageView imageView = findViewById(imageViews[i]);
             imageView.setImageResource(coverImage);
-            // imageView.setImageResource(duplicatedImageList.get(i)); //to test the randomised list
+            // imageView.setImageDrawable(duplicatedImages.get(i)); //use this to replace placeholder onClick
         }
 /*
         Intent intent = getIntent();
@@ -55,6 +66,20 @@ public class GameActivity extends AppCompatActivity {
             Drawable drawable= new BitmapDrawable(getResources(),bm);
             gameimages.add(drawable);
         }
+    }
+    // Chronometer utilities
+    public void gameTiming(){
+        timer = findViewById(R.id.chronometer);
+        long timing = SystemClock.elapsedRealtime();
+    }
+
+    public void start(){
+        gameTiming();
+        timer.start();
+    }
+
+    public void stop(){
+        timer.stop();
     }
 
 }
