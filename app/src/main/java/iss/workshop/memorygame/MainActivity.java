@@ -13,6 +13,7 @@ import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -27,11 +28,8 @@ import java.util.List;
 import static iss.workshop.memorygame.Utilities.hideKeyBoardOutsideEditText;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-
     private ArrayList<String> selectedImgUrlList;
     private boolean downloading;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     Integer i = 0;
                     for (final String item : listTest) {
-                        if(downloading) {
+                        if (downloading) {
                             final GridLayout.LayoutParams myLayoutParams = new GridLayout.LayoutParams();
                             final ImageView image = new ImageView(that);
                             image.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -133,6 +131,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             }
                         }
                     }
+                    //toast start
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(MainActivity.this, "Select 6 images to start the game!", Toast.LENGTH_LONG).show();
+                        }
+                    });
                 }
             }).start();
         }
@@ -208,7 +213,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         return imageUrlList;
     }
-    public void onClickCancel(View view){
+
+    public void onClickCancel(View view) {
         downloading = false;
     }
 
