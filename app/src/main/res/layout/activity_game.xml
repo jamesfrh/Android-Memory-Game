@@ -47,7 +47,8 @@
             android:layout_columnWeight="1"
             android:layout_row="0"
             android:layout_column="0"
-            android:scaleType="fitXY"/>
+            android:scaleType="fitXY"
+            android:tag="1"/>
 
         <ImageView
             android:id="@+id/imageView2"
@@ -57,7 +58,8 @@
             android:layout_height="0dp"
             android:layout_row="0"
             android:layout_column="1"
-            android:scaleType="fitXY"/>
+            android:scaleType="fitXY"
+            android:tag="2"/>
 
         <ImageView
             android:id="@+id/imageView3"
@@ -67,7 +69,8 @@
             android:layout_height="0dp"
             android:layout_row="0"
             android:layout_column="2"
-            android:scaleType="fitXY"/>
+            android:scaleType="fitXY"
+            android:tag="3"/>
 
         <ImageView
             android:id="@+id/imageView4"
@@ -77,7 +80,8 @@
             android:layout_height="0dp"
             android:layout_row="1"
             android:layout_column="0"
-            android:scaleType="fitXY"/>
+            android:scaleType="fitXY"
+            android:tag="4"/>
 
         <ImageView
             android:id="@+id/imageView5"
@@ -87,7 +91,8 @@
             android:layout_height="0dp"
             android:layout_row="1"
             android:layout_column="1"
-            android:scaleType="fitXY"/>
+            android:scaleType="fitXY"
+            android:tag="5"/>
 
         <ImageView
             android:id="@+id/imageView6"
@@ -97,7 +102,8 @@
             android:layout_height="0dp"
             android:layout_row="1"
             android:layout_column="2"
-            android:scaleType="fitXY"/>
+            android:scaleType="fitXY"
+            android:tag="6"/>
 
         <ImageView
             android:id="@+id/imageView7"
@@ -107,7 +113,8 @@
             android:layout_height="0dp"
             android:layout_row="2"
             android:layout_column="0"
-            android:scaleType="fitXY"/>
+            android:scaleType="fitXY"
+            android:tag="7"/>
 
         <ImageView
             android:id="@+id/imageView8"
@@ -117,7 +124,8 @@
             android:layout_height="0dp"
             android:layout_row="2"
             android:layout_column="1"
-            android:scaleType="fitXY"/>
+            android:scaleType="fitXY"
+            android:tag="8"/>
 
         <ImageView
             android:id="@+id/imageView9"
@@ -127,7 +135,8 @@
             android:layout_height="0dp"
             android:layout_row="2"
             android:layout_column="2"
-            android:scaleType="fitXY"/>
+            android:scaleType="fitXY"
+            android:tag="9"/>
 
         <ImageView
             android:id="@+id/imageView10"
@@ -137,7 +146,8 @@
             android:layout_height="0dp"
             android:layout_row="3"
             android:layout_column="0"
-            android:scaleType="fitXY"/>
+            android:scaleType="fitXY"
+            android:tag="10"/>
 
         <ImageView
             android:id="@+id/imageView11"
@@ -147,7 +157,8 @@
             android:layout_height="0dp"
             android:layout_row="3"
             android:layout_column="1"
-            android:scaleType="fitXY"/>
+            android:scaleType="fitXY"
+            android:tag="11"/>
 
         <ImageView
             android:id="@+id/imageView12"
@@ -157,6 +168,7 @@
             android:layout_height="0dp"
             android:layout_row="3"
             android:layout_column="2"
-            android:scaleType="fitXY"/>
+            android:scaleType="fitXY"
+            android:tag="12"/>
     </GridLayout>
 </LinearLayout>
