@@ -7,15 +7,15 @@
     tools:context=".MainActivity">
 
     <EditText
-        android:id="@+id/urlTextEdit"
+        android:id="@+id/urlText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:ems="10"
-        android:hint="URL"
-        android:inputType="textPersonName"
+        android:hint="Enter URL"
+        android:inputType="text"
         app:layout_constraintBottom_toTopOf="@id/table"
         app:layout_constraintEnd_toStartOf="@id/fetchButton"
         app:layout_constraintHorizontal_bias="0.439"

@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -26,9 +27,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import static iss.workshop.memorygame.Utilities.hideKeyBoardOutsideEditText;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     ArrayList<String> selectedImgUrlList;
+    EditText urlText;
 
 
 
@@ -52,11 +56,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (id == R.id.fetchButton) {
             final Context that = this;
             final GridLayout gridLayout = (GridLayout) findViewById(R.id.table);
+            //hides keyboard after clicking fetch button
+            hideKeyBoardOutsideEditText(MainActivity.this);
 
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     String url = "https://stocksnap.io/search/nature";
+
+                    //Uncomment this to allow user to type URL instead of hardcoding
+                    /*
+                    urlText = findViewById(R.id.urlText);
+                    String urlToString = "";
+                    if(urlText != null){
+                        urlToString = urlText.getText().toString();
+                    }
+                    */
                     List<String> listTest = getImageUrls(url);
                     Integer i = 0;
 
@@ -80,11 +95,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             image.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
+                                    //hides keyboard after clicking images
+                                    hideKeyBoardOutsideEditText(MainActivity.this);
                                     int id = v.getId();
-                                    String imgURL = item;
-                                    if(selectedImgUrlList.size() < 6 && !selectedImgUrlList.contains(imgURL)){
-                                        selectedImgUrlList.add(imgURL);
-                                        //fade the current image
+                                    if(selectedImgUrlList.size() < 6 && !selectedImgUrlList.contains(item)){
+                                        selectedImgUrlList.add(item);
+                                        //reduce opacity of image to indicate it has been clicked
+                                        image.setAlpha(0.3f);
                                     }
                                     if(selectedImgUrlList.size() == 6){
                                         Intent intent = new Intent(MainActivity.this, GameActivity.class);
