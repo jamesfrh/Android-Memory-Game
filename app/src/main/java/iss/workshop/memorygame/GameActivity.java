@@ -2,6 +2,7 @@ package iss.workshop.memorygame;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,12 +14,15 @@ import android.os.SystemClock;
 import android.view.View;
 import android.widget.Chronometer;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class GameActivity extends AppCompatActivity implements View.OnClickListener{
-
+    private TextView pairView=null;
+    private int matchCount = 0;
     private int flipCardNum=0;
     public ArrayList<ImageView> compareImageList = new ArrayList<ImageView>();
     private ArrayList<Drawable> gameimages;
@@ -29,10 +33,12 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             R.id.imageView9, R.id.imageView10, R.id.imageView11, R.id.imageView12};
     private Chronometer timer;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+        pairView = (TextView) findViewById(R.id.score);
 
         ImageView view1=findViewById(R.id.imageView1);
         view1.setOnClickListener(this);
@@ -131,6 +137,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                     ImageView secondImage=compareImageList.get(1);
                     final Bitmap bitmap1=((BitmapDrawable)firstImage.getDrawable()).getBitmap();
                     final Bitmap bitmap2=((BitmapDrawable)secondImage.getDrawable()).getBitmap();
+
                     //if not the same
                     if(bitmap1!=bitmap2){
                         showUpdatedFlipCard(firstImage);
@@ -143,12 +150,29 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                         compareImageList.get(1).setClickable(false);
                         flipCardNum=0;
                         compareImageList.clear();
+                        matchCount++;
+                        updateCount();
+                    }
+
+                    if(matchCount==Constant.max_pairs)
+                    {
+                        Toast msg= Toast.makeText(GameActivity.this,"Congratulations!!",Toast.LENGTH_LONG);
+                        returnMain();
                     }
                 }
             }
         }, 500);
     }
 
+    private void returnMain() {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                startActivity(new Intent(GameActivity.this, MainActivity.class));
+            }
+        }, 3000);
+    }
     //check the current card and flip card (call flip card method)
     protected int showUpdatedFlipCard(ImageView imageView) {
         int currflipStatus;
@@ -188,5 +212,10 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             compareImageList.clear();
         }
         return  flipStatus;
+    }
+
+    @SuppressLint("StringFormatMatches")
+    private void updateCount() {
+        pairView.setText(getString(R.string.match_pair, matchCount, Constant.max_pairs));
     }
 }
