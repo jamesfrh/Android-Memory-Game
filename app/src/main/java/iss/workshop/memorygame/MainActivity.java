@@ -8,7 +8,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridLayout;
@@ -38,10 +40,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         selectedImgUrlList = new ArrayList<>();
         System.out.println("here");
-        Button fetchBtn = findViewById(R.id.fetchButton);
+        final Button fetchBtn = findViewById(R.id.fetchButton);
         fetchBtn.setOnClickListener(this);
         TextView myDownloadText = (TextView) findViewById(R.id.downloadText);
         myDownloadText.setText("");
+        EditText urlText = findViewById(R.id.urlText);
+        urlText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
+                if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
+                    onClick(fetchBtn);
+                }
+                return false;
+            }
+        });
 
     }
 
