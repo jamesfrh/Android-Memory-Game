@@ -146,6 +146,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     String downloadText = "Downloading " + progress / 5 + " of 20 images";
                                     if (progress == 100) {
                                         downloadText = "Download Completed!";
+                                        Toast.makeText(MainActivity.this, "Select 6 images to start the game!", Toast.LENGTH_LONG).show();
                                     }
                                     TextView myDownloadText = (TextView) findViewById(R.id.downloadText);
                                     myDownloadText.setText(downloadText);
@@ -159,12 +160,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         }
                     }
                     //toast start
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(MainActivity.this, "Select 6 images to start the game!", Toast.LENGTH_LONG).show();
-                        }
-                    });
+//                    runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            Toast.makeText(MainActivity.this, "Select 6 images to start the game!", Toast.LENGTH_LONG).show();
+//                        }
+//                    });
                 }
             });
             downloadThread.start();
