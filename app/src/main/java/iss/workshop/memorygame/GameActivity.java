@@ -32,6 +32,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             R.id.imageView5, R.id.imageView6, R.id.imageView7, R.id.imageView8,
             R.id.imageView9, R.id.imageView10, R.id.imageView11, R.id.imageView12};
     private Chronometer timer;
+    private int clickCounter = 0;
 
 
     @Override
@@ -107,18 +108,21 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         long timing = SystemClock.elapsedRealtime();
     }
 
-    public void start(){
+    public void timerStart(){
         gameTiming();
         timer.start();
     }
 
-    public void stop(){
+    public void timerStop(){
         timer.stop();
     }
 
     @Override
     public void onClick(View view) {
-
+        clickCounter++;
+        if(clickCounter == 1){
+            timerStart();
+        }
         final ImageView imageView=(ImageView) view;
         int currStatus=0;
         //get current card status (actualimage=1, cover=0)
@@ -156,7 +160,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
                     if(matchCount==Constant.max_pairs)
                     {
-                        Toast msg= Toast.makeText(GameActivity.this,"Congratulations!!",Toast.LENGTH_LONG);
+                        timerStop();
+                        // put the time into roundTime, for highscore
+                        //Toast msg= Toast.makeText(GameActivity.this,"Congratulations!!",Toast.LENGTH_LONG);
                         returnMain();
                     }
                 }
