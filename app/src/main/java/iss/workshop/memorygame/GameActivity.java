@@ -156,6 +156,23 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                         compareImageList.clear();
                         matchCount++;
                         updateCount();
+
+                        //clappinganimation
+                        final View backgroundcolour= (View)findViewById(R.id.colorbackground2);
+                        backgroundcolour.bringToFront();
+                        backgroundcolour.setVisibility(View.VISIBLE);
+                        final com.airbnb.lottie.LottieAnimationView animation1= findViewById(R.id.claphandanimation);
+                        animation1.bringToFront();
+                        animation1.setVisibility(View.VISIBLE);
+                        final Handler handler1 = new Handler();
+                        handler1.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                animation1.setVisibility(View.INVISIBLE);
+                                backgroundcolour.setVisibility(View.INVISIBLE);
+                            }
+                        }, 1000);
+
                     }
 
                     if(matchCount==Constant.max_pairs)
@@ -163,7 +180,27 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                         timerStop();
                         // put the time into roundTime, for highscore
                         //Toast msg= Toast.makeText(GameActivity.this,"Congratulations!!",Toast.LENGTH_LONG);
-                        returnMain();
+
+                        //endinganimation
+                        final View backgroundcolour1= (View)findViewById(R.id.gamecompletionbackground);
+                        backgroundcolour1.bringToFront();
+                        backgroundcolour1.setVisibility(View.VISIBLE);
+
+                        final TextView gamecompletiontext= (TextView) findViewById(R.id.gamecompletiontext);
+                        gamecompletiontext.bringToFront();
+                        gamecompletiontext.setVisibility(View.VISIBLE);
+
+                        final com.airbnb.lottie.LottieAnimationView fireworks= findViewById(R.id.fireworks);
+                        fireworks.bringToFront();
+                        fireworks.setVisibility(View.VISIBLE);
+
+                        final Handler handler2 = new Handler();
+                        handler2.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {returnMain();
+                            }
+                        }, 850);
+
                     }
                 }
             }

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
@@ -104,7 +105,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                             image.setAlpha(0.3f);
                                         }
                                         if (selectedImgUrlList.size() == 6) {
-                                            sendimgs();
+                                            //countdown animation
+                                            final Button fetchbtn= (Button) findViewById(R.id.fetchButton);
+                                            fetchbtn.setVisibility(View.INVISIBLE);
+                                            final Button cancelbtn=(Button) findViewById(R.id.cancel);
+                                            cancelbtn.setVisibility(View.INVISIBLE);
+
+                                            View backgroundcolour= (View) findViewById(R.id.colorbackground);
+                                            backgroundcolour.bringToFront();
+                                            backgroundcolour.setVisibility(View.VISIBLE);
+
+                                            final com.airbnb.lottie.LottieAnimationView countdownanimation= findViewById(R.id.countdownanimation);
+                                            countdownanimation.bringToFront();
+                                            countdownanimation.setVisibility(View.VISIBLE);
+
+                                            new Handler().postDelayed(new Runnable() {
+                                                @Override
+                                                public void run() {
+
+                                                    countdownanimation.setVisibility(View.INVISIBLE);
+                                                    final com.airbnb.lottie.LottieAnimationView animation= findViewById(R.id.gameboyanimation);
+                                                    animation.bringToFront();
+                                                    animation.setVisibility(View.VISIBLE);
+                                                    sendimgs();
+                                                }
+                                            }, 5000);
+
                                         }
                                     }
                                 });

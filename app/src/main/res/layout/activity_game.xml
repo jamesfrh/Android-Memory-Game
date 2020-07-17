@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,166 +9,251 @@
     android:weightSum="6"
     android:orientation="vertical"
     tools:context=".GameActivity">
-    <LinearLayout
+
+    <TextView
+        android:id="@+id/gamecompletiontext"
+        android:layout_width="0dp"
+        android:layout_height="127dp"
+        android:layout_weight="3"
+        android:gravity="center"
+        android:text="Game Completed"
+        android:textSize="35sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="invisible"
+        />
+
+    <View
+        android:id="@+id/colorbackground2"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="horizontal"
-        android:layout_weight="1">
-        <TextView
-            android:id="@+id/score"
-            android:layout_weight="3"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:text="SCORE: X/6 matches"
-            android:textSize="20sp"
-            android:gravity="center_vertical"/>
-        <Chronometer
-            android:id="@+id/chronometer"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:textSize="20sp" />
-    </LinearLayout>
+        android:layout_height="match_parent"
+        android:background="#50C878"
+        android:visibility="invisible"
+        />
+
+    <View
+        android:id="@+id/gamecompletionbackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#50C878"
+        android:visibility="invisible"
+        />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/claphandanimation"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/clapanimationyellow"
+        android:visibility="invisible"
+        tools:ignore="MissingClass" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/fireworks"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/fireworks"
+        android:visibility="invisible"
+        tools:ignore="MissingClass" />
+
+
+
+    <TextView
+        android:id="@+id/score"
+        android:layout_width="0dp"
+        android:layout_height="127dp"
+        android:layout_weight="3"
+        android:gravity="center_vertical"
+        android:text="SCORE: X/6 matches"
+        android:textSize="20sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <Chronometer
+        android:id="@+id/chronometer"
+        android:layout_width="240dp"
+        android:layout_height="123dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="16dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textSize="20sp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <GridLayout
         android:id="@+id/gridview"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_width="412dp"
+        android:layout_height="523dp"
         android:layout_weight="5"
+        android:alignmentMode="alignBounds"
+        android:clipToPadding="false"
+
         android:columnCount="3"
-        android:rowCount="4">
+        android:columnOrderPreserved="false"
+        android:padding="0dp"
+        android:paddingHorizontal="0dp"
+        android:paddingVertical="0dp"
+        android:paddingStart="0dp"
+        android:paddingLeft="0dp"
+        android:paddingTop="0dp"
+        android:paddingEnd="0dp"
+        android:paddingRight="0dp"
+        android:paddingBottom="0dp"
+        android:rowCount="4"
+        android:stretchMode="columnWidth"
+
+        app:layout_constraintTop_toBottomOf="@id/score"
+        tools:ignore="MissingConstraints">
 
         <ImageView
             android:id="@+id/imageView1"
-            android:layout_rowWeight="1"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_columnWeight="1"
             android:layout_row="0"
+            android:layout_rowWeight="1"
             android:layout_column="0"
+            android:layout_columnWeight="1"
             android:scaleType="fitXY"
-            android:tag="1"/>
+            android:tag="1"
+            tools:ignore="MissingConstraints" />
 
         <ImageView
             android:id="@+id/imageView2"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_row="0"
+            android:layout_rowWeight="1"
             android:layout_column="1"
+            android:layout_columnWeight="1"
             android:scaleType="fitXY"
-            android:tag="2"/>
+            android:tag="2"
+            tools:ignore="MissingConstraints" />
 
         <ImageView
             android:id="@+id/imageView3"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_row="0"
+            android:layout_rowWeight="1"
             android:layout_column="2"
+            android:layout_columnWeight="1"
             android:scaleType="fitXY"
-            android:tag="3"/>
+            android:tag="3"
+            tools:ignore="MissingConstraints" />
 
         <ImageView
             android:id="@+id/imageView4"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_row="1"
+            android:layout_rowWeight="1"
             android:layout_column="0"
+            android:layout_columnWeight="1"
             android:scaleType="fitXY"
-            android:tag="4"/>
+            android:tag="4"
+            tools:ignore="MissingConstraints" />
 
         <ImageView
             android:id="@+id/imageView5"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_row="1"
+            android:layout_rowWeight="1"
             android:layout_column="1"
+            android:layout_columnWeight="1"
             android:scaleType="fitXY"
-            android:tag="5"/>
+            android:tag="5"
+            tools:ignore="MissingConstraints" />
 
         <ImageView
             android:id="@+id/imageView6"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_row="1"
+            android:layout_rowWeight="1"
             android:layout_column="2"
+            android:layout_columnWeight="1"
             android:scaleType="fitXY"
-            android:tag="6"/>
+            android:tag="6"
+            tools:ignore="MissingConstraints" />
 
         <ImageView
             android:id="@+id/imageView7"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_row="2"
+            android:layout_rowWeight="1"
             android:layout_column="0"
+            android:layout_columnWeight="1"
             android:scaleType="fitXY"
-            android:tag="7"/>
+            android:tag="7"
+            tools:ignore="MissingConstraints" />
 
         <ImageView
             android:id="@+id/imageView8"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_row="2"
+            android:layout_rowWeight="1"
             android:layout_column="1"
+            android:layout_columnWeight="1"
             android:scaleType="fitXY"
-            android:tag="8"/>
+            android:tag="8"
+            tools:ignore="MissingConstraints" />
 
         <ImageView
             android:id="@+id/imageView9"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_row="2"
+            android:layout_rowWeight="1"
             android:layout_column="2"
+            android:layout_columnWeight="1"
             android:scaleType="fitXY"
-            android:tag="9"/>
+            android:tag="9"
+            tools:ignore="MissingConstraints" />
 
         <ImageView
             android:id="@+id/imageView10"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_row="3"
+            android:layout_rowWeight="1"
             android:layout_column="0"
+            android:layout_columnWeight="1"
             android:scaleType="fitXY"
-            android:tag="10"/>
+            android:tag="10"
+            tools:ignore="MissingConstraints" />
 
         <ImageView
             android:id="@+id/imageView11"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_row="3"
+            android:layout_rowWeight="1"
             android:layout_column="1"
+            android:layout_columnWeight="1"
             android:scaleType="fitXY"
-            android:tag="11"/>
+            android:tag="11"
+            tools:ignore="MissingConstraints" />
 
         <ImageView
             android:id="@+id/imageView12"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_row="3"
+            android:layout_rowWeight="1"
             android:layout_column="2"
+            android:layout_columnWeight="1"
             android:scaleType="fitXY"
-            android:tag="12"/>
+            android:tag="12"
+            tools:ignore="MissingConstraints" />
     </GridLayout>
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
