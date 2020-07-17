@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -59,17 +60,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             downloadThread = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    String url = "https://stocksnap.io/search/nature";
+                    //String urlToString = "https://stocksnap.io/search/nature";
 
                     //Uncomment this to allow user to type URL instead of hardcoding
-                    /*
-                    urlText = findViewById(R.id.urlText);
+
+                    EditText urlText = findViewById(R.id.urlText);
                     String urlToString = "";
                     if(urlText != null){
                         urlToString = urlText.getText().toString();
                     }
-                    */
-                    List<String> listTest = getImageUrls(url);
+
+                    List<String> listTest = getImageUrls(urlToString);
 
                     final ProgressBar myProgressBar = (ProgressBar) findViewById(R.id.progressBar);
                     myProgressBar.setProgress(0);
