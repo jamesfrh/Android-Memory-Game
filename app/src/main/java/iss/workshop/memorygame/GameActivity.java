@@ -136,17 +136,14 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
     // Chronometer utilities
-    public void gameTiming(){
-        timer = findViewById(R.id.chronometer);
-        long timing = SystemClock.elapsedRealtime();
-    }
-
     public void timerStart(){
-        gameTiming();
+        timer = findViewById(R.id.chronometer);
+        timer.setBase(SystemClock.elapsedRealtime());
         timer.start();
     }
 
     public void timerStop(){
+        timer = findViewById(R.id.chronometer);
         timer.stop();
     }
 
