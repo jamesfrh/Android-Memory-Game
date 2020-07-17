@@ -30,14 +30,13 @@ import static iss.workshop.memorygame.Utilities.hideKeyBoardOutsideEditText;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private ArrayList<String> selectedImgUrlList;
-    private boolean downloading;
-
+    private Thread downloadThread = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         selectedImgUrlList = new ArrayList<>();
-
+        System.out.println("here");
         Button fetchBtn = findViewById(R.id.fetchButton);
         fetchBtn.setOnClickListener(this);
         TextView myDownloadText = (TextView) findViewById(R.id.downloadText);
@@ -53,10 +52,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             final Context that = this;
             final GridLayout gridLayout = (GridLayout) findViewById(R.id.table);
 
-            downloading = true;
             gridLayout.removeAllViews();
-
-            new Thread(new Runnable() {
+            if (downloadThread != null) {
+                downloadThread.interrupt();
+            }
+            downloadThread = new Thread(new Runnable() {
                 @Override
                 public void run() {
                     String url = "https://stocksnap.io/search/nature";
@@ -77,84 +77,84 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     Integer i = 0;
                     for (final String item : listTest) {
-                        if (downloading) {
-                            final GridLayout.LayoutParams myLayoutParams = new GridLayout.LayoutParams();
-                            final ImageView image = new ImageView(that);
-                            image.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                            myLayoutParams.width = gridLayout.getWidth() / 4;
-                            myLayoutParams.height = gridLayout.getWidth() / 4;
-                            image.setPadding(0, 0, 0, 0);
+                        final GridLayout.LayoutParams myLayoutParams = new GridLayout.LayoutParams();
+                        final ImageView image = new ImageView(that);
+                        image.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                        myLayoutParams.width = gridLayout.getWidth() / 4;
+                        myLayoutParams.height = gridLayout.getWidth() / 4;
+                        image.setPadding(0, 0, 0, 0);
 
-                            try {
-                                URL imageurl = new URL(item);
-                                Bitmap bmp = BitmapFactory.decodeStream(imageurl.openConnection().getInputStream());
-                                image.setImageBitmap(bmp);
-                                image.setLayoutParams(myLayoutParams);
+                        try {
+                            URL imageurl = new URL(item);
+                            Bitmap bmp = BitmapFactory.decodeStream(imageurl.openConnection().getInputStream());
+                            image.setImageBitmap(bmp);
+                            image.setLayoutParams(myLayoutParams);
 
-                                final Integer idx = i;
-                                i++;
-                                image.setId(i);
-                                image.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        //hides keyboard after clicking images
-                                        hideKeyBoardOutsideEditText(MainActivity.this);
-                                        if (selectedImgUrlList.size() < 6 && !selectedImgUrlList.contains(item)) {
-                                            selectedImgUrlList.add(item);
-                                            //reduce opacity of image to indicate it has been clicked
-                                            image.setAlpha(0.3f);
-                                        }
-                                        if (selectedImgUrlList.size() == 6) {
-                                            //countdown animation
-                                            final Button fetchbtn= (Button) findViewById(R.id.fetchButton);
-                                            fetchbtn.setVisibility(View.INVISIBLE);
-                                            final Button cancelbtn=(Button) findViewById(R.id.cancel);
-                                            cancelbtn.setVisibility(View.INVISIBLE);
-
-                                            View backgroundcolour= (View) findViewById(R.id.colorbackground);
-                                            backgroundcolour.bringToFront();
-                                            backgroundcolour.setVisibility(View.VISIBLE);
-
-                                            final com.airbnb.lottie.LottieAnimationView countdownanimation= findViewById(R.id.countdownanimation);
-                                            countdownanimation.bringToFront();
-                                            countdownanimation.setVisibility(View.VISIBLE);
-
-                                            new Handler().postDelayed(new Runnable() {
-                                                @Override
-                                                public void run() {
-
-                                                    countdownanimation.setVisibility(View.INVISIBLE);
-                                                    final com.airbnb.lottie.LottieAnimationView animation= findViewById(R.id.gameboyanimation);
-                                                    animation.bringToFront();
-                                                    animation.setVisibility(View.VISIBLE);
-                                                    sendimgs();
-                                                }
-                                            }, 5000);
-
-                                        }
+                            final Integer idx = i;
+                            i++;
+                            image.setId(i);
+                            image.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    //hides keyboard after clicking images
+                                    hideKeyBoardOutsideEditText(MainActivity.this);
+                                    if (selectedImgUrlList.size() < 6 && !selectedImgUrlList.contains(item)) {
+                                        selectedImgUrlList.add(item);
+                                        //reduce opacity of image to indicate it has been clicked
+                                        image.setAlpha(0.3f);
                                     }
-                                });
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        gridLayout.addView(image, idx);
-                                        //ProgressBar myProgressBar = (ProgressBar) findViewById(R.id.progressBar);
-                                        myProgressBar.setVisibility(View.VISIBLE);
-                                        myProgressBar.incrementProgressBy(5);
-                                        Integer progress = myProgressBar.getProgress();
-                                        String downloadText = "Downloading " + progress / 5 + " of 20 images";
-                                        if (progress == 100) {
-                                            downloadText = "Download Completed!";
-                                        }
-                                        TextView myDownloadText = (TextView) findViewById(R.id.downloadText);
-                                        myDownloadText.setText(downloadText);
+                                    if (selectedImgUrlList.size() == 6) {
+                                        //countdown animation
+                                        final Button fetchbtn= (Button) findViewById(R.id.fetchButton);
+                                        fetchbtn.setVisibility(View.INVISIBLE);
+
+                                        View backgroundcolour= (View) findViewById(R.id.colorbackground);
+                                        backgroundcolour.bringToFront();
+                                        backgroundcolour.setVisibility(View.VISIBLE);
+
+                                        final com.airbnb.lottie.LottieAnimationView countdownanimation= findViewById(R.id.countdownanimation);
+                                        countdownanimation.bringToFront();
+                                        countdownanimation.setVisibility(View.VISIBLE);
+
+                                        new Handler().postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+
+                                                countdownanimation.setVisibility(View.INVISIBLE);
+                                                final com.airbnb.lottie.LottieAnimationView animation= findViewById(R.id.gameboyanimation);
+                                                animation.bringToFront();
+                                                animation.setVisibility(View.VISIBLE);
+                                                sendimgs();
+                                            }
+                                        }, 5000);
+
                                     }
-                                });
-                            } catch (MalformedURLException e) {
-                                e.printStackTrace();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
+                                }
+                            });
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (idx > gridLayout.getChildCount()) {
+                                        return;
+                                    }
+                                    gridLayout.addView(image, idx);
+                                    //ProgressBar myProgressBar = (ProgressBar) findViewById(R.id.progressBar);
+                                    myProgressBar.setVisibility(View.VISIBLE);
+                                    myProgressBar.incrementProgressBy(5);
+                                    Integer progress = myProgressBar.getProgress();
+                                    String downloadText = "Downloading " + progress / 5 + " of 20 images";
+                                    if (progress == 100) {
+                                        downloadText = "Download Completed!";
+                                    }
+                                    TextView myDownloadText = (TextView) findViewById(R.id.downloadText);
+                                    myDownloadText.setText(downloadText);
+                                }
+                            });
+                        } catch (MalformedURLException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            Thread.currentThread().interrupt();
+                            e.printStackTrace();
                         }
                     }
                     //toast start
@@ -165,7 +165,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         }
                     });
                 }
-            }).start();
+            });
+            downloadThread.start();
         }
     }
 
@@ -217,7 +218,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 BufferedReader in = new BufferedReader(new InputStreamReader(httpConn.getInputStream()));
                 String inputLine;
                 while ((inputLine = in.readLine()) != null) {
-                    System.out.println(inputLine);
                     if (inputLine.contains("img src") && inputLine.contains(".jpg")) {
 
                         String s = "<img src=\"";
@@ -239,10 +239,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         return imageUrlList;
     }
-
-    public void onClickCancel(View view) {
-        downloading = false;
-    }
-
 
 }
