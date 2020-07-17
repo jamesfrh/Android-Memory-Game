@@ -52,8 +52,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (id == R.id.fetchButton) {
             final Context that = this;
             final GridLayout gridLayout = (GridLayout) findViewById(R.id.table);
+            final ProgressBar myProgressBar = (ProgressBar) findViewById(R.id.progressBar);
+            final TextView myDownloadText = (TextView) findViewById(R.id.downloadText);
 
             gridLayout.removeAllViews();
+            myProgressBar.setVisibility(View.INVISIBLE);
+            myDownloadText.setText("");
             if (downloadThread != null) {
                 downloadThread.interrupt();
             }
@@ -72,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     List<String> listTest = getImageUrls(urlToString);
 
-                    final ProgressBar myProgressBar = (ProgressBar) findViewById(R.id.progressBar);
+
                     myProgressBar.setProgress(0);
                     selectedImgUrlList.clear();
 
@@ -148,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                         downloadText = "Download Completed!";
                                         Toast.makeText(MainActivity.this, "Select 6 images to start the game!", Toast.LENGTH_LONG).show();
                                     }
-                                    TextView myDownloadText = (TextView) findViewById(R.id.downloadText);
+
                                     myDownloadText.setText(downloadText);
                                 }
                             });
