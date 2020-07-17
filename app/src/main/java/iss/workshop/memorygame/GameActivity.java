@@ -1,19 +1,27 @@
 package iss.workshop.memorygame;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.AudioManager;
+import android.media.Image;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Chronometer;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,7 +29,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class GameActivity extends AppCompatActivity implements View.OnClickListener{
+    MediaPlayer player;
     private TextView pairView=null;
+    ImageButton imageButton;
+    AudioManager audioManager;
+
     private int matchCount = 0;
     private int flipCardNum=0;
     public ArrayList<ImageView> compareImageList = new ArrayList<ImageView>();
@@ -34,11 +46,32 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     private Chronometer timer;
     private int clickCounter = 0;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
+        ImageButton btnVolume=(ImageButton)findViewById(R.id.volume);
+        btnVolume.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                AudioManager am = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+                am.adjustStreamVolume(AudioManager.STREAM_MUSIC,AudioManager.ADJUST_TOGGLE_MUTE,0);
+            }
+        });
+
+        player = MediaPlayer.create(this,R.raw.time);
+        player.start();
+        player.setLooping(true);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true)
+                    System.out.println("Running...");
+            }
+        }).start();
+
         pairView = (TextView) findViewById(R.id.score);
 
         ImageView view1=findViewById(R.id.imageView1);
@@ -161,7 +194,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                         final View backgroundcolour= (View)findViewById(R.id.colorbackground2);
                         backgroundcolour.bringToFront();
                         backgroundcolour.setVisibility(View.VISIBLE);
-                        final com.airbnb.lottie.LottieAnimationView animation1= findViewById(R.id.claphandanimation);
+                        final com.airbnb.lottie.LottieAnimationView animation1 = findViewById(R.id.claphandanimation);
                         animation1.bringToFront();
                         animation1.setVisibility(View.VISIBLE);
                         final Handler handler1 = new Handler();
@@ -214,7 +247,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             public void run() {
                 startActivity(new Intent(GameActivity.this, MainActivity.class));
             }
-        }, 3000);
+        }, 1000);
     }
     //check the current card and flip card (call flip card method)
     protected int showUpdatedFlipCard(ImageView imageView) {
@@ -260,5 +293,23 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     @SuppressLint("StringFormatMatches")
     private void updateCount() {
         pairView.setText(getString(R.string.match_pair, matchCount, Constant.max_pairs));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        player.pause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        player.start();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        player.seekTo(0);
     }
 }

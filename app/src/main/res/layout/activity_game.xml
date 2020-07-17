@@ -77,7 +77,7 @@
 
     <Chronometer
         android:id="@+id/chronometer"
-        android:layout_width="240dp"
+        android:layout_width="0dp"
         android:layout_height="123dp"
         android:layout_marginTop="4dp"
         android:layout_marginRight="16dp"
@@ -255,5 +255,15 @@
             android:scaleType="fitXY"
             android:tag="12"
             tools:ignore="MissingConstraints" />
+
     </GridLayout>
+
+    <ImageButton
+        android:id="@+id/volume"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/ic_volume"
+        tools:layout_editor_absoluteY="4dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
