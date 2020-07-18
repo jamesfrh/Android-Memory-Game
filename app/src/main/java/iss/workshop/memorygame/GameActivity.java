@@ -59,10 +59,10 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 if(!player.isPlaying()) {
                     player.start();
                     player.setLooping(true);
-                    btnMusic.setImageResource(R.drawable.ic_baseline_music_off_24);
+                    btnMusic.setImageResource(R.drawable.ic_baseline_music_note_24);
                 } else {
                     player.pause();
-                    btnMusic.setImageResource(R.drawable.ic_baseline_music_note_24);
+                    btnMusic.setImageResource(R.drawable.ic_baseline_music_off_24);
                 }
             }
         });
