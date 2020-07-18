@@ -31,8 +31,6 @@ import java.util.Collections;
 public class GameActivity extends AppCompatActivity implements View.OnClickListener{
     MediaPlayer player;
     private TextView pairView=null;
-    ImageButton imageButton;
-    AudioManager audioManager;
 
     private int matchCount = 0;
     private int flipCardNum=0;
@@ -51,19 +49,24 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        ImageButton btnVolume=(ImageButton)findViewById(R.id.volume);
-        btnVolume.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view)
-            {
-                AudioManager am = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
-                am.adjustStreamVolume(AudioManager.STREAM_MUSIC,AudioManager.ADJUST_TOGGLE_MUTE,0);
-            }
-        });
-
         player = MediaPlayer.create(this,R.raw.time);
         player.start();
         player.setLooping(true);
+        final ImageButton btnMusic=(ImageButton)findViewById(R.id.music);
+        btnMusic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!player.isPlaying()) {
+                    player.start();
+                    player.setLooping(true);
+                    btnMusic.setImageResource(R.drawable.ic_baseline_music_off_24);
+                } else {
+                    player.pause();
+                    btnMusic.setImageResource(R.drawable.ic_baseline_music_note_24);
+                }
+            }
+        });
+
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -284,7 +287,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             flipStatus=0;
             compareImageList.clear();
         }
-        return  flipStatus;
+        return flipStatus;
     }
 
     @SuppressLint("StringFormatMatches")
@@ -308,5 +311,11 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     protected void onStop() {
         super.onStop();
         player.seekTo(0);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        player.release();
     }
 }
