@@ -10,21 +10,56 @@
         android:id="@+id/welcomescreen"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#50C878"
+        android:background="#50C878" />
 
-        />
+    <ImageView
+        android:layout_width="290dp"
+        android:layout_height="595dp"
+        android:src="@drawable/teamicon"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/Gamenametext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Team 9 Picture Memory Game"
-        android:textSize="25sp"
         android:textColor="#FFFFFF"
-        app:layout_constraintTop_toTopOf="parent"
+        android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.593" />
+
+    <TextView
+        android:id="@+id/Tutorialtext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tutorial"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.279"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.702" />
+
+    <TextView
+        android:id="@+id/skiptutorialtext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Skip Tutorial >"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.714"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.702" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
