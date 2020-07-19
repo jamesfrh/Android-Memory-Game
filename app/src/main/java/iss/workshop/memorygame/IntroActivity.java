@@ -32,7 +32,5 @@ public class IntroActivity extends AppCompatActivity implements View.OnClickList
             final Intent intent= new Intent(this, MainActivity.class);
             startActivity(intent);
         }
-
     }
-
 }

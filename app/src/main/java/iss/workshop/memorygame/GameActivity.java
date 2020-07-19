@@ -67,14 +67,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (true)
-                    System.out.println("Running...");
-            }
-        }).start();
-
         pairView = (TextView) findViewById(R.id.score);
 
         ImageView view1=findViewById(R.id.imageView1);
@@ -124,7 +116,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         for (int i=0; i<imageViews.length; i++) {
             ImageView imageView = findViewById(imageViews[i]);
             imageView.setImageResource(coverImage);
-            // imageView.setImageDrawable(duplicatedImages.get(i)); //use this to replace placeholder onClick
         }
     }
 
@@ -205,14 +196,11 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                                 backgroundcolour.setVisibility(View.INVISIBLE);
                             }
                         }, 1000);
-
                     }
 
                     if(matchCount==Constant.max_pairs)
                     {
                         timerStop();
-                        // put the time into roundTime, for highscore
-                        //Toast msg= Toast.makeText(GameActivity.this,"Congratulations!!",Toast.LENGTH_LONG);
 
                         //endinganimation
                         final View backgroundcolour1= (View)findViewById(R.id.gamecompletionbackground);
@@ -233,7 +221,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                             public void run() {returnMain();
                             }
                         }, 850);
-
                     }
                 }
             }
@@ -258,7 +245,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         //get current image name(tag)
         final Bitmap imageBitmap=((BitmapDrawable)imageView.getDrawable()).getBitmap();
         final Bitmap hidden = ((BitmapDrawable)getResources().getDrawable(R.drawable.cover)).getBitmap();
-
 
         if(imageBitmap==hidden){
             if(flipCardNum<2){

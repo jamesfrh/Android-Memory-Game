@@ -35,7 +35,6 @@ public class Tutorial extends AppCompatActivity implements View.OnClickListener 
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
             }
-
         }
     }
 }

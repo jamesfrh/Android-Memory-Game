@@ -12,10 +12,8 @@ public class Utilities {
                         Activity.INPUT_METHOD_SERVICE);
         View focusedView = activity.getCurrentFocus();
         if (focusedView != null) {
-
-        inputMethodManager.hideSoftInputFromWindow(
-                activity.getCurrentFocus().getWindowToken(), 0);
+            inputMethodManager.hideSoftInputFromWindow(
+                    activity.getCurrentFocus().getWindowToken(), 0);
+        }
     }
-    }
-
 }

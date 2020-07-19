@@ -54,7 +54,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 return false;
             }
         });
-
     }
 
     @Override
@@ -76,10 +75,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             downloadThread = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    //String urlToString = "https://stocksnap.io/search/nature";
-
-                    //Uncomment this to allow user to type URL instead of hardcoding
-
                     EditText urlText = findViewById(R.id.urlText);
                     String urlToString = "";
                     if(urlText != null){
@@ -87,7 +82,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
 
                     List<String> listTest = getImageUrls(urlToString);
-
 
                     myProgressBar.setProgress(0);
                     selectedImgUrlList.clear();
@@ -144,7 +138,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                                 sendimgs();
                                             }
                                         }, 5000);
-
                                     }
                                 }
                             });
@@ -155,7 +148,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                         return;
                                     }
                                     gridLayout.addView(image, idx);
-                                    //ProgressBar myProgressBar = (ProgressBar) findViewById(R.id.progressBar);
                                     myProgressBar.setVisibility(View.VISIBLE);
                                     myProgressBar.incrementProgressBy(5);
                                     Integer progress = myProgressBar.getProgress();
@@ -164,7 +156,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                         downloadText = "Download Completed!";
                                         Toast.makeText(MainActivity.this, "Select 6 images to start the game!", Toast.LENGTH_LONG).show();
                                     }
-
                                     myDownloadText.setText(downloadText);
                                 }
                             });
@@ -175,13 +166,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             e.printStackTrace();
                         }
                     }
-                    //toast start
-//                    runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            Toast.makeText(MainActivity.this, "Select 6 images to start the game!", Toast.LENGTH_LONG).show();
-//                        }
-//                    });
                 }
             });
             downloadThread.start();
@@ -191,14 +175,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void sendimgs() {
 
         byte[] ByteArray = null;
-        //sending list
+        // sending list
         new Thread(new Runnable() {
             @Override
             public void run() {
 
                 Intent i = new Intent(MainActivity.this, GameActivity.class);
                 for (int y = 0; y < selectedImgUrlList.size(); y++) {
-                    //getbitmapfrom url
+                    // get bitmap from url
                     try {
                         URL url = new URL(selectedImgUrlList.get(y));
                         Bitmap bm = BitmapFactory.decodeStream(url.openConnection().getInputStream());
@@ -214,10 +198,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(i);
             }
         }).start();
-    }
-
-    protected void downloadImages(String target) {
-
     }
 
     protected List<String> getImageUrls(String urlString) {
@@ -246,8 +226,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         if (imageUrlList.size() == 20) {
                             break;
                         }
-                        //String imgSrcString = inputLine.substring(inputLine.indexOf("img src=") + 9, inputLine.indexOf(".jpg") + 4);
-                        //ImageList.add(imgSrcString);
                     }
                 }
                 in.close();
@@ -257,5 +235,4 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         return imageUrlList;
     }
-
 }
